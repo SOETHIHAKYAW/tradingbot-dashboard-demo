@@ -1,356 +1,341 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary)}
+body{font-family:var(--font-sans);font-size:14px;color:var(--color-text-primary);background:var(--color-background-tertiary)}
 .layout{display:flex;min-height:600px}
-.sidebar{width:200px;flex-shrink:0;background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:1rem 0;display:flex;flex-direction:column}
-.logo{padding:0 1rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:0.5rem}
+.sidebar{width:200px;flex-shrink:0;background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:16px 0;display:flex;flex-direction:column}
+.logo{padding:0 16px 16px;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:8px}
 .logo-title{font-size:15px;font-weight:500;color:var(--color-text-primary)}
-.logo-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:8px 1rem;font-size:13px;color:var(--color-text-secondary);cursor:pointer;border-radius:0;transition:background 0.1s}
-.nav-item:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
-.nav-item.active{background:var(--color-background-info);color:var(--color-text-info);font-weight:500}
-.nav-item i{font-size:16px}
-.nav-section{font-size:10px;color:var(--color-text-tertiary);padding:8px 1rem 4px;text-transform:uppercase;letter-spacing:0.05em}
-.sidebar-footer{margin-top:auto;padding:0.75rem 1rem;border-top:0.5px solid var(--color-border-tertiary)}
-.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
-.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 1.25rem;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.topbar-title{font-size:15px;font-weight:500}
-.topbar-right{display:flex;align-items:center;gap:12px}
-.ws-dot{width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0}
-.ws-label{font-size:12px;color:var(--color-text-secondary)}
-.mode-badge{font-size:11px;padding:3px 10px;border-radius:var(--border-radius-md);background:var(--color-background-info);color:var(--color-text-info);font-weight:500;cursor:pointer}
-.kill-btn{font-size:11px;padding:3px 10px;border-radius:var(--border-radius-md);background:var(--color-background-danger);color:var(--color-text-danger);font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-danger)}
-.content{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.logo-sub{font-size:11px;color:var(--color-text-secondary)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;cursor:pointer;border-radius:0;font-size:13px;color:var(--color-text-secondary);transition:background 0.15s;border-left:3px solid transparent}
+.nav-item:hover{background:var(--color-background-secondary)}
+.nav-item.active{color:var(--color-text-info);background:var(--color-background-info);border-left:3px solid #1A56DB;font-weight:500}
+.nav-item i{font-size:17px}
+.nav-badge{margin-left:auto;background:#E24B4A;color:#fff;font-size:10px;font-weight:500;padding:1px 6px;border-radius:99px}
+.sidebar-bottom{margin-top:auto;padding:12px 16px;border-top:0.5px solid var(--color-border-tertiary)}
+.ws-dot{width:8px;height:8px;border-radius:50%;background:#10B981;display:inline-block;margin-right:6px}
+.main{flex:1;overflow:auto;display:flex;flex-direction:column}
+.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:12px 20px;display:flex;align-items:center;gap:12px}
+.topbar-title{font-size:16px;font-weight:500;flex:1}
+.mode-toggle{display:flex;align-items:center;gap:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:4px}
+.mode-btn{padding:4px 12px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--color-text-secondary)}
+.mode-btn.active{background:var(--color-background-primary);color:#1A56DB;border:0.5px solid var(--color-border-secondary)}
+.kill-btn{padding:5px 12px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-danger);color:var(--color-text-danger);background:var(--color-background-danger)}
+.content{padding:20px;flex:1}
 .page{display:none}
-.page.active{display:flex;flex-direction:column;gap:1rem}
-.cards-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem}
-.card-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.card-value{font-size:22px;font-weight:500}
-.card-sub{font-size:11px;color:var(--color-text-secondary);margin-top:4px}
-.green{color:#10b981}.red{color:#ef4444}.blue{color:#3b82f6}.amber{color:#f59e0b}
-.row-2{display:grid;grid-template-columns:2fr 1fr;gap:12px}
-.section-title{font-size:13px;font-weight:500;margin-bottom:12px;color:var(--color-text-secondary)}
-.table-wrap{overflow-x:auto}
+.page.active{display:block}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.grid2{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:20px}
+.grid2b{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px}
+.metric-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px}
+.metric-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:6px}
+.metric-value{font-size:22px;font-weight:500}
+.metric-sub{font-size:11px;color:var(--color-text-secondary);margin-top:4px}
+.green{color:#10B981}.red{color:#EF4444}.amber{color:#F59E0B}.blue{color:#1A56DB}
+.card-title{font-size:13px;font-weight:500;margin-bottom:14px;color:var(--color-text-secondary)}
+.badge{font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px;display:inline-block}
+.badge-win{background:#D1FAE5;color:#065F46}
+.badge-loss{background:#FEE2E2;color:#991B1B}
+.badge-open{background:#DBEAFE;color:#1E40AF}
+.badge-buy{background:#D1FAE5;color:#065F46}
+.badge-sell{background:#FEE2E2;color:#991B1B}
+.badge-hold{background:#FEF3C7;color:#92400E}
+.badge-auto{background:#DBEAFE;color:#1E40AF}
+.badge-conf{background:#D1FAE5;color:#065F46}
+.badge-rej{background:#FEE2E2;color:#991B1B}
+.badge-pend{background:#FEF3C7;color:#92400E}
 table{width:100%;border-collapse:collapse;font-size:12px}
-th{text-align:left;padding:8px 10px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);font-weight:500;white-space:nowrap}
-td{padding:8px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);white-space:nowrap}
+th{text-align:left;padding:8px 10px;font-size:11px;font-weight:500;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+td{padding:8px 10px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary)}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--color-background-secondary)}
-.badge{font-size:10px;padding:2px 8px;border-radius:var(--border-radius-md);font-weight:500;display:inline-block}
-.badge-win{background:var(--color-background-success);color:var(--color-text-success)}
-.badge-loss{background:var(--color-background-danger);color:var(--color-text-danger)}
-.badge-open{background:var(--color-background-info);color:var(--color-text-info)}
-.badge-buy{background:var(--color-background-success);color:var(--color-text-success)}
-.badge-sell{background:var(--color-background-danger);color:var(--color-text-danger)}
-.badge-auto{background:var(--color-background-info);color:var(--color-text-info)}
-.badge-pending{background:var(--color-background-warning);color:var(--color-text-warning)}
-.badge-rejected{background:var(--color-background-secondary);color:var(--color-text-secondary)}
-.conf-bar-wrap{width:80px;height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:4px}
-.conf-bar{height:100%;border-radius:3px}
-.signal-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;display:flex;flex-direction:column;gap:8px}
-.signal-card-header{display:flex;align-items:center;justify-content:space-between}
-.signal-actions{display:flex;gap:8px;margin-top:4px}
-.btn-confirm{background:var(--color-background-success);color:var(--color-text-success);border:0.5px solid var(--color-border-success);padding:5px 14px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;font-weight:500}
-.btn-reject{background:var(--color-background-danger);color:var(--color-text-danger);border:0.5px solid var(--color-border-danger);padding:5px 14px;border-radius:var(--border-radius-md);font-size:12px;cursor:pointer;font-weight:500}
-.reasoning{font-size:11px;color:var(--color-text-secondary);line-height:1.5;padding:8px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:11px}
-.price-item label{color:var(--color-text-secondary);display:block;margin-bottom:2px}
-.price-item span{font-weight:500;font-size:13px}
-.settings-section{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem}
-.settings-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
-.settings-row:last-child{border-bottom:none}
-.settings-label{font-size:13px;color:var(--color-text-primary)}
-.settings-desc{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
-.toggle{position:relative;display:inline-block;width:40px;height:22px}
-.toggle input{opacity:0;width:0;height:0}
-.slider-toggle{position:absolute;inset:0;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:11px;cursor:pointer;transition:0.2s}
-.slider-toggle:before{content:'';position:absolute;height:16px;width:16px;left:2px;bottom:2px;background:var(--color-text-secondary);border-radius:50%;transition:0.2s}
-input:checked+.slider-toggle{background:var(--color-background-info);border-color:var(--color-border-info)}
-input:checked+.slider-toggle:before{transform:translateX(18px);background:var(--color-text-info)}
-.pnl-pos{color:#10b981;font-weight:500}
-.pnl-neg{color:#ef4444;font-weight:500}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.75rem}
-.stat-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
-.stat-val{font-size:18px;font-weight:500}
+.section-title{font-size:14px;font-weight:500;margin-bottom:14px}
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filter-bar select,.filter-bar input{font-size:12px;padding:5px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.stat-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px}
+.stat-label{color:var(--color-text-secondary);width:160px;flex-shrink:0}
+.stat-bar{flex:1;height:6px;background:var(--color-background-tertiary);border-radius:99px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:99px;background:#1A56DB}
+.progress-green{background:#10B981}
+.progress-red{background:#EF4444}
+.signal-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;margin-bottom:10px;background:var(--color-background-primary)}
+.signal-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.signal-levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.level-box{background:var(--color-background-secondary);border-radius:6px;padding:8px;text-align:center}
+.level-label{font-size:10px;color:var(--color-text-secondary);margin-bottom:2px}
+.level-value{font-size:13px;font-weight:500}
+.reasoning{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:6px;padding:8px;line-height:1.5}
+.signal-actions{display:flex;gap:8px;margin-top:10px}
+.btn-confirm{padding:5px 14px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid #10B981;color:#065F46;background:#D1FAE5}
+.btn-reject{padding:5px 14px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid #EF4444;color:#991B1B;background:#FEE2E2}
+.pos-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;margin-bottom:10px;background:var(--color-background-primary);display:flex;align-items:center;gap:12px}
+.pos-pair{font-size:15px;font-weight:500;min-width:80px}
+.pos-detail{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pos-field{font-size:11px}
+.pos-field-label{color:var(--color-text-secondary);margin-bottom:2px}
+.pos-pnl{font-size:18px;font-weight:500;text-align:right;min-width:80px}
+.config-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.config-label{font-size:13px;font-weight:500}
+.config-desc{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.toggle{width:38px;height:22px;border-radius:99px;background:#D1D5DB;cursor:pointer;position:relative;transition:background 0.2s;flex-shrink:0;border:none}
+.toggle.on{background:#1A56DB}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left 0.2s}
+.toggle.on::after{left:19px}
+.kill-active{background:#FEE2E2;border:0.5px solid #F09595;border-radius:var(--border-radius-md);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.perf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
 </style>
 
-<h2 class="sr-only">AI Trading Bot Dashboard — interactive demo with overview, live monitor, signal log, trade history, analytics, and settings pages.</h2>
+<h2 class="sr-only">AI Trading Bot Dashboard — interactive demo with overview, live monitor, signals, trade history, analytics, settings, and notifications pages</h2>
 
 <div class="layout">
   <div class="sidebar">
     <div class="logo">
-      <div class="logo-title"><i class="ti ti-robot" aria-hidden="true"></i> AI Trade Bot</div>
-      <div class="logo-sub">Binance Futures · Demo</div>
+      <div class="logo-title"><i class="ti ti-robot" aria-hidden="true"></i> TradeBot</div>
+      <div class="logo-sub">AI Trading Dashboard</div>
     </div>
-    <div class="nav-section">Main</div>
-    <div class="nav-item active" onclick="showPage('overview',this)"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Overview</div>
-    <div class="nav-item" onclick="showPage('live',this)"><i class="ti ti-activity" aria-hidden="true"></i> Live monitor</div>
-    <div class="nav-section">Analysis</div>
-    <div class="nav-item" onclick="showPage('signals',this)"><i class="ti ti-brain" aria-hidden="true"></i> Signal log</div>
-    <div class="nav-item" onclick="showPage('trades',this)"><i class="ti ti-list-details" aria-hidden="true"></i> Trade history</div>
-    <div class="nav-item" onclick="showPage('analytics',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i> Analytics</div>
-    <div class="nav-section">System</div>
-    <div class="nav-item" onclick="showPage('settings',this)"><i class="ti ti-settings" aria-hidden="true"></i> Settings</div>
-    <div class="sidebar-footer">
-      <div style="font-size:11px;color:var(--color-text-secondary)">Admin · John Doe</div>
+    <div class="nav-item active" onclick="nav('overview',this)"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Overview</div>
+    <div class="nav-item" onclick="nav('live',this)"><i class="ti ti-radio" aria-hidden="true"></i> Live monitor <span class="nav-badge">2</span></div>
+    <div class="nav-item" onclick="nav('signals',this)"><i class="ti ti-brain" aria-hidden="true"></i> Signal log</div>
+    <div class="nav-item" onclick="nav('trades',this)"><i class="ti ti-history" aria-hidden="true"></i> Trade history</div>
+    <div class="nav-item" onclick="nav('analytics',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i> Analytics</div>
+    <div class="nav-item" onclick="nav('settings',this)"><i class="ti ti-settings" aria-hidden="true"></i> Settings</div>
+    <div class="nav-item" onclick="nav('notifications',this)"><i class="ti ti-bell" aria-hidden="true"></i> Notifications</div>
+    <div class="sidebar-bottom">
+      <div style="font-size:11px;color:var(--color-text-secondary)"><span class="ws-dot"></span>WebSocket live</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:6px">Admin · Phase 1</div>
     </div>
   </div>
 
   <div class="main">
     <div class="topbar">
       <div class="topbar-title" id="page-title">Overview</div>
-      <div class="topbar-right">
-        <div class="ws-dot"></div><span class="ws-label">Live</span>
-        <span class="mode-badge">AUTO</span>
-        <span class="kill-btn"><i class="ti ti-shield-off" aria-hidden="true"></i> Kill switch</span>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="btn-auto" onclick="setMode('auto')">AUTO</button>
+        <button class="mode-btn" id="btn-manual" onclick="setMode('manual')">MANUAL</button>
       </div>
+      <button class="kill-btn" onclick="toggleKill()"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Kill switch</button>
     </div>
 
     <div class="content">
 
       <!-- OVERVIEW -->
       <div class="page active" id="page-overview">
-        <div class="cards-row">
-          <div class="card">
-            <div class="card-label"><i class="ti ti-trending-up" aria-hidden="true"></i> Today's PnL</div>
-            <div class="card-value pnl-pos">+$184.50</div>
-            <div class="card-sub">3 trades closed</div>
-          </div>
-          <div class="card">
-            <div class="card-label"><i class="ti ti-chart-candle" aria-hidden="true"></i> Open positions</div>
-            <div class="card-value blue">2</div>
-            <div class="card-sub">BTCUSDT, ETHUSDT</div>
-          </div>
-          <div class="card">
-            <div class="card-label"><i class="ti ti-rosette" aria-hidden="true"></i> Win rate (7d)</div>
-            <div class="card-value green">68.4%</div>
-            <div class="card-sub">13 wins / 6 losses</div>
-          </div>
-          <div class="card">
-            <div class="card-label"><i class="ti ti-robot" aria-hidden="true"></i> Bot status</div>
-            <div class="card-value" style="font-size:16px;color:#10b981">● Auto mode</div>
-            <div class="card-sub">Running normally</div>
-          </div>
+        <div class="grid4">
+          <div class="metric-card"><div class="metric-label">Today's PnL</div><div class="metric-value green">+$84.20</div><div class="metric-sub">↑ 3 wins · 1 loss today</div></div>
+          <div class="metric-card"><div class="metric-label">Open positions</div><div class="metric-value blue">2</div><div class="metric-sub">BTCUSDT · ETHUSDT</div></div>
+          <div class="metric-card"><div class="metric-label">Win rate (7d)</div><div class="metric-value green">67%</div><div class="metric-sub">18 wins · 9 losses</div></div>
+          <div class="metric-card"><div class="metric-label">Total PnL (30d)</div><div class="metric-value green">+$612.40</div><div class="metric-sub">↑ from last month</div></div>
         </div>
-
-        <div class="row-2">
+        <div class="grid2">
           <div class="card">
-            <div class="section-title">Cumulative PnL — last 14 days</div>
-            <div style="position:relative;height:180px"><canvas id="pnlChart" role="img" aria-label="Line chart showing cumulative PnL over 14 days, rising from 0 to approximately +840 USDT">Cumulative PnL rising trend over 14 days.</canvas></div>
+            <div class="card-title">Cumulative PnL — last 30 days</div>
+            <div style="position:relative;width:100%;height:180px"><canvas id="pnlChart" role="img" aria-label="Line chart showing cumulative PnL growing from 0 to 612 USDT over 30 days">PnL grew from $0 to $612 over 30 days.</canvas></div>
           </div>
           <div class="card">
-            <div class="section-title">Win / Loss breakdown</div>
-            <div style="display:flex;gap:12px;margin-bottom:10px;font-size:12px">
-              <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#10b981;display:inline-block"></span>Wins 68%</span>
-              <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#ef4444;display:inline-block"></span>Losses 32%</span>
+            <div class="card-title">Win / loss (7d)</div>
+            <div style="display:flex;gap:8px;margin-bottom:10px">
+              <span style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--color-text-secondary)"><span style="width:10px;height:10px;border-radius:2px;background:#10B981"></span>Win 67%</span>
+              <span style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--color-text-secondary)"><span style="width:10px;height:10px;border-radius:2px;background:#EF4444"></span>Loss 33%</span>
             </div>
-            <div style="position:relative;height:150px"><canvas id="winChart" role="img" aria-label="Donut chart showing 68% wins and 32% losses">68% win rate, 32% loss rate.</canvas></div>
+            <div style="position:relative;width:100%;height:145px"><canvas id="donutChart" role="img" aria-label="Donut chart showing 67% win rate and 33% loss rate">18 wins, 9 losses over 7 days.</canvas></div>
           </div>
         </div>
-
-        <div class="card">
-          <div class="section-title">Recent closed trades</div>
-          <div class="table-wrap">
+        <div class="grid2b">
+          <div class="card">
+            <div class="card-title">Recent trades</div>
             <table>
-              <thead><tr><th>Pair</th><th>Side</th><th>Entry</th><th>Exit</th><th>PnL</th><th>Outcome</th><th>Duration</th></tr></thead>
+              <thead><tr><th>Pair</th><th>Side</th><th>PnL</th><th>Outcome</th></tr></thead>
               <tbody>
-                <tr><td>BTCUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>67,215</td><td>68,480</td><td class="pnl-pos">+$126.50</td><td><span class="badge badge-win">WIN</span></td><td>2h 14m</td></tr>
-                <tr><td>ETHUSDT</td><td><span class="badge badge-sell">SHORT</span></td><td>3,520</td><td>3,448</td><td class="pnl-pos">+$72.00</td><td><span class="badge badge-win">WIN</span></td><td>47m</td></tr>
-                <tr><td>SOLUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>182.40</td><td>178.20</td><td class="pnl-neg">-$42.00</td><td><span class="badge badge-loss">LOSS</span></td><td>1h 3m</td></tr>
-                <tr><td>BNBUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>612.50</td><td>628.00</td><td class="pnl-pos">+$62.00</td><td><span class="badge badge-win">WIN</span></td><td>3h 22m</td></tr>
-                <tr><td>BTCUSDT</td><td><span class="badge badge-sell">SHORT</span></td><td>67,800</td><td>68,240</td><td class="pnl-neg">-$34.00</td><td><span class="badge badge-loss">LOSS</span></td><td>28m</td></tr>
+                <tr><td>BTCUSDT</td><td><span class="badge badge-buy">BUY</span></td><td class="green">+$42.10</td><td><span class="badge badge-win">WIN</span></td></tr>
+                <tr><td>ETHUSDT</td><td><span class="badge badge-sell">SELL</span></td><td class="red">-$18.40</td><td><span class="badge badge-loss">LOSS</span></td></tr>
+                <tr><td>SOLUSDT</td><td><span class="badge badge-buy">BUY</span></td><td class="green">+$31.60</td><td><span class="badge badge-win">WIN</span></td></tr>
+                <tr><td>BNBUSDT</td><td><span class="badge badge-buy">BUY</span></td><td class="green">+$28.90</td><td><span class="badge badge-win">WIN</span></td></tr>
+                <tr><td>BTCUSDT</td><td><span class="badge badge-sell">SELL</span></td><td class="green">+$19.50</td><td><span class="badge badge-win">WIN</span></td></tr>
               </tbody>
             </table>
+          </div>
+          <div class="card">
+            <div class="card-title">Performance by pair</div>
+            <div class="stat-row"><span class="stat-label">BTCUSDT</span><div class="stat-bar"><div class="stat-bar-fill progress-green" style="width:72%"></div></div><span style="font-size:12px;width:36px;text-align:right">72%</span></div>
+            <div class="stat-row"><span class="stat-label">ETHUSDT</span><div class="stat-bar"><div class="stat-bar-fill progress-green" style="width:65%"></div></div><span style="font-size:12px;width:36px;text-align:right">65%</span></div>
+            <div class="stat-row"><span class="stat-label">SOLUSDT</span><div class="stat-bar"><div class="stat-bar-fill progress-green" style="width:70%"></div></div><span style="font-size:12px;width:36px;text-align:right">70%</span></div>
+            <div class="stat-row"><span class="stat-label">BNBUSDT</span><div class="stat-bar"><div class="stat-bar-fill" style="width:58%"></div></div><span style="font-size:12px;width:36px;text-align:right">58%</span></div>
+            <div class="stat-row"><span class="stat-label">ADAUSDT</span><div class="stat-bar"><div class="stat-bar-fill progress-red" style="width:44%"></div></div><span style="font-size:12px;width:36px;text-align:right">44%</span></div>
           </div>
         </div>
       </div>
 
       <!-- LIVE MONITOR -->
       <div class="page" id="page-live">
-        <div class="card" style="border:0.5px solid var(--color-border-info)">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <div style="font-size:13px;font-weight:500">Open positions <span class="badge badge-open">2 open</span></div>
-            <div style="font-size:12px;color:var(--color-text-secondary)">Live via WebSocket · updates every 1s</div>
+        <div id="kill-banner" style="display:none" class="kill-active"><i class="ti ti-alert-triangle" style="color:#EF4444;font-size:18px" aria-hidden="true"></i><div><div style="font-weight:500;color:#991B1B;font-size:13px">Kill switch active — all trading halted</div><div style="font-size:11px;color:#991B1B;margin-top:2px">Daily loss limit reached. Reset from Settings to resume.</div></div></div>
+        <div class="section-title">Open positions</div>
+        <div class="pos-card">
+          <div><div class="pos-pair">BTCUSDT</div><span class="badge badge-buy">LONG</span></div>
+          <div class="pos-detail">
+            <div class="pos-field"><div class="pos-field-label">Entry</div><div>$67,215</div></div>
+            <div class="pos-field"><div class="pos-field-label">Mark price</div><div style="color:#1A56DB">$67,842</div></div>
+            <div class="pos-field"><div class="pos-field-label">TP / SL</div><div>$68,500 / $66,400</div></div>
+            <div class="pos-field"><div class="pos-field-label">Duration</div><div>2h 14m</div></div>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Pair</th><th>Side</th><th>Entry</th><th>Mark price</th><th>TP</th><th>SL</th><th>Unrealised PnL</th><th>Duration</th><th>Action</th></tr></thead>
-              <tbody>
-                <tr><td>BTCUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>67,200</td><td id="btc-mark">67,841</td><td>68,500</td><td>66,400</td><td class="pnl-pos" id="btc-pnl">+$64.10</td><td>42m</td><td><button onclick="sendPrompt('How do I manually close the BTCUSDT position?')" style="font-size:11px;padding:3px 10px">Close ↗</button></td></tr>
-                <tr><td>ETHUSDT</td><td><span class="badge badge-sell">SHORT</span></td><td>3,520</td><td id="eth-mark">3,496</td><td>3,420</td><td>3,600</td><td class="pnl-pos" id="eth-pnl">+$24.00</td><td>18m</td><td><button onclick="sendPrompt('How do I manually close the ETHUSDT position?')" style="font-size:11px;padding:3px 10px">Close ↗</button></td></tr>
-              </tbody>
-            </table>
-          </div>
+          <div><div class="pos-pnl green">+$62.70</div><div style="font-size:10px;color:var(--color-text-secondary);text-align:right">unrealised</div></div>
         </div>
-
-        <div style="font-size:13px;font-weight:500;margin-bottom:4px">Pending signals <span class="badge badge-pending">1 awaiting confirmation</span></div>
+        <div class="pos-card">
+          <div><div class="pos-pair">ETHUSDT</div><span class="badge badge-buy">LONG</span></div>
+          <div class="pos-detail">
+            <div class="pos-field"><div class="pos-field-label">Entry</div><div>$3,412</div></div>
+            <div class="pos-field"><div class="pos-field-label">Mark price</div><div style="color:#EF4444">$3,388</div></div>
+            <div class="pos-field"><div class="pos-field-label">TP / SL</div><div>$3,520 / $3,320</div></div>
+            <div class="pos-field"><div class="pos-field-label">Duration</div><div>47m</div></div>
+          </div>
+          <div><div class="pos-pnl red">-$24.00</div><div style="font-size:10px;color:var(--color-text-secondary);text-align:right">unrealised</div></div>
+        </div>
+        <div style="margin-top:20px" class="section-title">Pending signals <span class="badge badge-pend" style="margin-left:6px">1 awaiting</span></div>
         <div class="signal-card">
-          <div class="signal-card-header">
-            <div style="display:flex;align-items:center;gap:8px">
-              <span style="font-size:15px;font-weight:500">SOLUSDT</span>
-              <span class="badge badge-buy">BUY</span>
-              <span style="font-size:12px;color:var(--color-text-secondary)">Confidence:</span>
-              <span class="conf-bar-wrap"><span class="conf-bar" style="width:84%;background:#10b981"></span></span>
-              <span style="font-size:12px;font-weight:500">84%</span>
-            </div>
-            <span style="font-size:11px;color:var(--color-text-secondary)">just now</span>
+          <div class="signal-header">
+            <span style="font-size:15px;font-weight:500">SOLUSDT</span>
+            <span class="badge badge-buy">BUY</span>
+            <span class="badge badge-pend">Pending confirm</span>
+            <span style="margin-left:auto;font-size:12px;color:var(--color-text-secondary)">Confidence: <strong>84%</strong></span>
           </div>
-          <div class="price-grid">
-            <div class="price-item"><label>Entry</label><span>$184.20</span></div>
-            <div class="price-item"><label>Take profit</label><span class="green">$188.60</span></div>
-            <div class="price-item"><label>Stop loss</label><span class="red">$181.40</span></div>
+          <div class="signal-levels">
+            <div class="level-box"><div class="level-label">Entry</div><div class="level-value">$148.20</div></div>
+            <div class="level-box"><div class="level-label">TP</div><div class="level-value green">$154.50</div></div>
+            <div class="level-box"><div class="level-label">SL</div><div class="level-value red">$144.80</div></div>
           </div>
-          <div class="reasoning">RSI (14) at 38.2 — oversold territory. MACD bullish crossover confirmed on 1H chart. News sentiment score +0.71 (Solana validator upgrade announced). R:R ratio 1:1.57. Suggested risk: 1.8% of account.</div>
+          <div class="reasoning">RSI(14) = 38 — oversold zone. MACD bullish crossover confirmed on 1H. News sentiment: 0.71 positive (Solana ecosystem grant news). R:R = 1.85. Suggested position size: 1.8% of capital based on ATR volatility.</div>
           <div class="signal-actions">
-            <button class="btn-confirm" onclick="sendPrompt('What happens after I confirm a trade signal in the bot?')">Confirm ↗</button>
-            <button class="btn-reject" onclick="sendPrompt('What happens after I reject a trade signal?')">Reject ↗</button>
+            <button class="btn-confirm" onclick="this.textContent='Confirmed ✓';this.disabled=true"><i class="ti ti-check" aria-hidden="true"></i> Confirm</button>
+            <button class="btn-reject" onclick="this.textContent='Rejected';this.disabled=true"><i class="ti ti-x" aria-hidden="true"></i> Reject</button>
           </div>
         </div>
       </div>
 
       <!-- SIGNAL LOG -->
       <div class="page" id="page-signals">
+        <div class="filter-bar">
+          <select><option>All pairs</option><option>BTCUSDT</option><option>ETHUSDT</option><option>SOLUSDT</option></select>
+          <select><option>All types</option><option>BUY</option><option>SELL</option><option>HOLD</option></select>
+          <select><option>All status</option><option>Confirmed</option><option>Rejected</option><option>Pending</option></select>
+          <input type="date" style="font-size:12px">
+        </div>
         <div class="card">
-          <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-            <select style="font-size:12px;padding:4px 8px"><option>All pairs</option><option>BTCUSDT</option><option>ETHUSDT</option><option>SOLUSDT</option></select>
-            <select style="font-size:12px;padding:4px 8px"><option>All types</option><option>BUY</option><option>SELL</option><option>HOLD</option></select>
-            <select style="font-size:12px;padding:4px 8px"><option>All status</option><option>Confirmed</option><option>Rejected</option><option>Pending</option></select>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Time</th><th>Pair</th><th>Type</th><th>Confidence</th><th>Entry</th><th>TP</th><th>SL</th><th>R:R</th><th>Status</th><th>Outcome</th></tr></thead>
-              <tbody>
-                <tr><td>09:14</td><td>SOLUSDT</td><td><span class="badge badge-buy">BUY</span></td><td><span class="conf-bar-wrap"><span class="conf-bar" style="width:84%;background:#10b981"></span></span>84%</td><td>184.20</td><td>188.60</td><td>181.40</td><td>1.57</td><td><span class="badge badge-pending">Pending</span></td><td>—</td></tr>
-                <tr><td>07:32</td><td>BTCUSDT</td><td><span class="badge badge-buy">BUY</span></td><td><span class="conf-bar-wrap"><span class="conf-bar" style="width:91%;background:#10b981"></span></span>91%</td><td>67,200</td><td>68,500</td><td>66,400</td><td>1.87</td><td><span class="badge badge-win">Confirmed</span></td><td><span class="badge badge-open">Open</span></td></tr>
-                <tr><td>06:55</td><td>ETHUSDT</td><td><span class="badge badge-sell">SELL</span></td><td><span class="conf-bar-wrap"><span class="conf-bar" style="width:78%;background:#10b981"></span></span>78%</td><td>3,520</td><td>3,420</td><td>3,600</td><td>1.25</td><td><span class="badge badge-win">Confirmed</span></td><td><span class="badge badge-open">Open</span></td></tr>
-                <tr><td>05:10</td><td>BNBUSDT</td><td><span class="badge badge-buy">BUY</span></td><td><span class="conf-bar-wrap"><span class="conf-bar" style="width:88%;background:#10b981"></span></span>88%</td><td>612.50</td><td>628.00</td><td>604.00</td><td>1.82</td><td><span class="badge badge-win">Confirmed</span></td><td><span class="badge badge-win">WIN</span></td></tr>
-                <tr><td>03:44</td><td>SOLUSDT</td><td><span class="badge badge-sell">SELL</span></td><td><span class="conf-bar-wrap"><span class="conf-bar" style="width:62%;background:#f59e0b"></span></span>62%</td><td>186.00</td><td>181.00</td><td>189.20</td><td>1.56</td><td><span class="badge badge-rejected">Rejected</span></td><td>—</td></tr>
-                <tr><td>02:20</td><td>BTCUSDT</td><td><span class="badge badge-sell">SELL</span></td><td><span class="conf-bar-wrap"><span class="conf-bar" style="width:75%;background:#f59e0b"></span></span>75%</td><td>67,800</td><td>67,140</td><td>68,240</td><td>1.50</td><td><span class="badge badge-win">Confirmed</span></td><td><span class="badge badge-loss">LOSS</span></td></tr>
-                <tr><td>01:05</td><td>ETHUSDT</td><td><span class="badge badge-buy">BUY</span></td><td><span class="conf-bar-wrap"><span class="conf-bar" style="width:82%;background:#10b981"></span></span>82%</td><td>3,480</td><td>3,560</td><td>3,400</td><td>1.60</td><td><span class="badge badge-win">Confirmed</span></td><td><span class="badge badge-win">WIN</span></td></tr>
-              </tbody>
-            </table>
-          </div>
+          <table>
+            <thead><tr><th>Time</th><th>Pair</th><th>Type</th><th>Confidence</th><th>Entry</th><th>TP</th><th>SL</th><th>R:R</th><th>Status</th><th>Outcome</th></tr></thead>
+            <tbody>
+              <tr><td>14:32</td><td>SOLUSDT</td><td><span class="badge badge-buy">BUY</span></td><td><span style="color:#10B981;font-weight:500">84%</span></td><td>$148.20</td><td>$154.50</td><td>$144.80</td><td>1.85</td><td><span class="badge badge-pend">Pending</span></td><td>—</td></tr>
+              <tr><td>12:18</td><td>BTCUSDT</td><td><span class="badge badge-buy">BUY</span></td><td><span style="color:#10B981;font-weight:500">82%</span></td><td>$67,215</td><td>$68,500</td><td>$66,400</td><td>1.62</td><td><span class="badge badge-conf">Confirmed</span></td><td><span class="badge badge-open">Open</span></td></tr>
+              <tr><td>10:45</td><td>BNBUSDT</td><td><span class="badge badge-buy">BUY</span></td><td><span style="color:#10B981;font-weight:500">78%</span></td><td>$598.40</td><td>$618.00</td><td>$584.00</td><td>1.36</td><td><span class="badge badge-conf">Confirmed</span></td><td><span class="badge badge-win">WIN</span></td></tr>
+              <tr><td>09:20</td><td>ETHUSDT</td><td><span class="badge badge-sell">SELL</span></td><td><span style="color:#F59E0B;font-weight:500">65%</span></td><td>$3,510</td><td>$3,420</td><td>$3,560</td><td>1.80</td><td><span class="badge badge-rej">Rejected</span></td><td>—</td></tr>
+              <tr><td>08:05</td><td>SOLUSDT</td><td><span class="badge badge-buy">BUY</span></td><td><span style="color:#10B981;font-weight:500">81%</span></td><td>$142.80</td><td>$149.00</td><td>$139.40</td><td>1.82</td><td><span class="badge badge-conf">Confirmed</span></td><td><span class="badge badge-win">WIN</span></td></tr>
+              <tr><td>06:30</td><td>BTCUSDT</td><td><span class="badge badge-hold">HOLD</span></td><td><span style="color:var(--color-text-secondary);font-weight:500">55%</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="badge badge-rej">Rejected</span></td><td>—</td></tr>
+              <tr><td>03:14</td><td>ADAUSDT</td><td><span class="badge badge-sell">SELL</span></td><td><span style="color:#10B981;font-weight:500">76%</span></td><td>$0.482</td><td>$0.462</td><td>$0.495</td><td>1.54</td><td><span class="badge badge-conf">Confirmed</span></td><td><span class="badge badge-loss">LOSS</span></td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
       <!-- TRADE HISTORY -->
       <div class="page" id="page-trades">
+        <div class="filter-bar">
+          <select><option>All pairs</option><option>BTCUSDT</option><option>ETHUSDT</option><option>SOLUSDT</option></select>
+          <select><option>All outcomes</option><option>WIN</option><option>LOSS</option></select>
+          <select><option>Last 7 days</option><option>Last 30 days</option><option>All time</option></select>
+          <button style="margin-left:auto;font-size:12px"><i class="ti ti-download" aria-hidden="true"></i> Export CSV</button>
+        </div>
         <div class="card">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-            <div style="display:flex;gap:8px">
-              <select style="font-size:12px;padding:4px 8px"><option>All pairs</option><option>BTCUSDT</option><option>ETHUSDT</option></select>
-              <select style="font-size:12px;padding:4px 8px"><option>All outcomes</option><option>WIN</option><option>LOSS</option></select>
-              <select style="font-size:12px;padding:4px 8px"><option>Last 7 days</option><option>Last 30 days</option><option>All time</option></select>
-            </div>
-            <button onclick="sendPrompt('How do I export trade history as CSV from the dashboard?')" style="font-size:12px;padding:4px 12px"><i class="ti ti-download" aria-hidden="true"></i> Export CSV ↗</button>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Opened</th><th>Pair</th><th>Side</th><th>Entry</th><th>Exit</th><th>TP</th><th>SL</th><th>Qty</th><th>PnL (USDT)</th><th>PnL %</th><th>Outcome</th><th>Closed by</th><th>Duration</th></tr></thead>
-              <tbody>
-                <tr><td>09:14 today</td><td>SOLUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>182.40</td><td>178.20</td><td>186.80</td><td>178.20</td><td>2.0</td><td class="pnl-neg">-$42.00</td><td class="pnl-neg">-2.1%</td><td><span class="badge badge-loss">LOSS</span></td><td>SL</td><td>1h 3m</td></tr>
-                <tr><td>07:32 today</td><td>ETHUSDT</td><td><span class="badge badge-sell">SHORT</span></td><td>3,520</td><td>3,448</td><td>3,448</td><td>3,600</td><td>0.5</td><td class="pnl-pos">+$72.00</td><td class="pnl-pos">+3.6%</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>47m</td></tr>
-                <tr><td>06:20 today</td><td>BTCUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>67,215</td><td>68,480</td><td>68,480</td><td>66,400</td><td>0.01</td><td class="pnl-pos">+$126.50</td><td class="pnl-pos">+6.3%</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>2h 14m</td></tr>
-                <tr><td>05:10 today</td><td>BNBUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>612.50</td><td>628.00</td><td>628.00</td><td>604.00</td><td>0.5</td><td class="pnl-pos">+$62.00</td><td class="pnl-pos">+3.1%</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>3h 22m</td></tr>
-                <tr><td>02:20 today</td><td>BTCUSDT</td><td><span class="badge badge-sell">SHORT</span></td><td>67,800</td><td>68,240</td><td>67,140</td><td>68,240</td><td>0.01</td><td class="pnl-neg">-$34.00</td><td class="pnl-neg">-1.7%</td><td><span class="badge badge-loss">LOSS</span></td><td>SL</td><td>28m</td></tr>
-                <tr><td>01:05 today</td><td>ETHUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>3,480</td><td>3,560</td><td>3,560</td><td>3,400</td><td>0.5</td><td class="pnl-pos">+$80.00</td><td class="pnl-pos">+4.0%</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>1h 48m</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:12px;color:var(--color-text-secondary)">
-            <span>Showing 6 of 19 trades</span>
-            <div style="display:flex;gap:6px">
-              <button style="font-size:12px;padding:3px 10px">← Prev</button>
-              <button style="font-size:12px;padding:3px 10px">Next →</button>
-            </div>
-          </div>
+          <table>
+            <thead><tr><th>Opened</th><th>Pair</th><th>Side</th><th>Entry</th><th>Exit</th><th>TP / SL</th><th>PnL</th><th>Outcome</th><th>Closed by</th><th>Duration</th></tr></thead>
+            <tbody>
+              <tr><td>Jun 2 10:45</td><td>BNBUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>$598.40</td><td>$617.80</td><td>$618 / $584</td><td class="green">+$28.90</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>1h 22m</td></tr>
+              <tr><td>Jun 2 08:05</td><td>SOLUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>$142.80</td><td>$148.90</td><td>$149 / $139.40</td><td class="green">+$31.60</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>2h 41m</td></tr>
+              <tr><td>Jun 1 22:18</td><td>ETHUSDT</td><td><span class="badge badge-sell">SHORT</span></td><td>$3,545</td><td>$3,563</td><td>$3,480 / $3,560</td><td class="red">-$18.40</td><td><span class="badge badge-loss">LOSS</span></td><td>SL</td><td>38m</td></tr>
+              <tr><td>Jun 1 18:30</td><td>BTCUSDT</td><td><span class="badge badge-sell">SHORT</span></td><td>$67,800</td><td>$67,612</td><td>$67,400 / $68,100</td><td class="green">+$19.50</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>55m</td></tr>
+              <tr><td>Jun 1 14:10</td><td>BTCUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>$66,920</td><td>$67,842</td><td>$68,200 / $66,100</td><td class="green">+$42.10</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>4h 08m</td></tr>
+              <tr><td>Jun 1 09:55</td><td>ADAUSDT</td><td><span class="badge badge-sell">SHORT</span></td><td>$0.482</td><td>$0.495</td><td>$0.462 / $0.495</td><td class="red">-$18.80</td><td><span class="badge badge-loss">LOSS</span></td><td>SL</td><td>1h 12m</td></tr>
+              <tr><td>May 31 20:40</td><td>SOLUSDT</td><td><span class="badge badge-buy">LONG</span></td><td>$139.40</td><td>$146.20</td><td>$147 / $135.00</td><td class="green">+$34.00</td><td><span class="badge badge-win">WIN</span></td><td>TP</td><td>3h 22m</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
       <!-- ANALYTICS -->
       <div class="page" id="page-analytics">
-        <div style="display:flex;gap:8px;margin-bottom:4px">
-          <button onclick="setAnalyticsPeriod(7,this)" style="font-size:12px;padding:4px 12px;background:var(--color-background-info);color:var(--color-text-info)">7D</button>
-          <button onclick="setAnalyticsPeriod(14,this)" style="font-size:12px;padding:4px 12px">14D</button>
-          <button onclick="setAnalyticsPeriod(30,this)" style="font-size:12px;padding:4px 12px">30D</button>
+        <div class="perf-grid">
+          <div class="metric-card"><div class="metric-label">Total PnL (30d)</div><div class="metric-value green">+$612.40</div></div>
+          <div class="metric-card"><div class="metric-label">Win rate</div><div class="metric-value green">67%</div></div>
+          <div class="metric-card"><div class="metric-label">Avg R:R achieved</div><div class="metric-value">1.74</div></div>
+          <div class="metric-card"><div class="metric-label">Total trades</div><div class="metric-value">27</div></div>
+          <div class="metric-card"><div class="metric-label">Max drawdown</div><div class="metric-value red">-$48.20</div></div>
+          <div class="metric-card"><div class="metric-label">Avg duration</div><div class="metric-value">2h 08m</div></div>
         </div>
-        <div class="stat-row">
-          <div class="stat-card"><div class="stat-label">Total PnL (7d)</div><div class="stat-val pnl-pos">+$841.20</div></div>
-          <div class="stat-card"><div class="stat-label">Win rate</div><div class="stat-val green">68.4%</div></div>
-          <div class="stat-card"><div class="stat-label">Avg R:R achieved</div><div class="stat-val">1.74</div></div>
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-title">Win rate by pair</div>
+          <div style="position:relative;width:100%;height:180px"><canvas id="pairChart" role="img" aria-label="Bar chart of win rates by trading pair: BTC 72%, ETH 65%, SOL 70%, BNB 58%, ADA 44%">Win rates: BTC 72%, ETH 65%, SOL 70%, BNB 58%, ADA 44%.</canvas></div>
         </div>
         <div class="card">
-          <div class="section-title">Cumulative PnL</div>
-          <div style="position:relative;height:160px"><canvas id="analyticsChart" role="img" aria-label="Line chart of cumulative PnL over selected period">Cumulative PnL chart.</canvas></div>
-        </div>
-        <div class="row-2">
-          <div class="card">
-            <div class="section-title">Win rate by pair</div>
-            <div style="position:relative;height:160px"><canvas id="pairChart" role="img" aria-label="Bar chart showing win rate per trading pair">Win rate per pair bar chart.</canvas></div>
-          </div>
-          <div class="card">
-            <div class="section-title">Per-pair breakdown</div>
-            <table style="font-size:12px;width:100%">
-              <thead><tr><th>Pair</th><th>Trades</th><th>Win%</th><th>PnL</th></tr></thead>
-              <tbody>
-                <tr><td>BTCUSDT</td><td>8</td><td class="green">75%</td><td class="pnl-pos">+$412</td></tr>
-                <tr><td>ETHUSDT</td><td>6</td><td class="green">67%</td><td class="pnl-pos">+$264</td></tr>
-                <tr><td>SOLUSDT</td><td>4</td><td class="amber">50%</td><td class="pnl-pos">+$98</td></tr>
-                <tr><td>BNBUSDT</td><td>1</td><td class="green">100%</td><td class="pnl-pos">+$62</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <div class="card-title">Trades by session</div>
+          <div style="position:relative;width:100%;height:160px"><canvas id="sessionChart" role="img" aria-label="Bar chart of trade count by trading session: Asia 6, London 11, New York 10">Asia 6, London 11, New York 10.</canvas></div>
         </div>
       </div>
 
       <!-- SETTINGS -->
       <div class="page" id="page-settings">
-        <div class="settings-section">
-          <div style="font-size:14px;font-weight:500;margin-bottom:8px">Trading mode</div>
-          <div class="settings-row">
-            <div><div class="settings-label">Auto mode</div><div class="settings-desc">Bot confirms and executes all signals automatically</div></div>
-            <label class="toggle"><input type="checkbox" checked><span class="slider-toggle"></span></label>
+        <div class="grid2b">
+          <div class="card">
+            <div class="section-title">Trading mode</div>
+            <div class="config-row"><div><div class="config-label">Auto mode</div><div class="config-desc">Bot executes all signals automatically</div></div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle auto mode"></button></div>
+            <div class="config-row"><div><div class="config-label">Manual confirmation</div><div class="config-desc">Require approval before each trade</div></div><button class="toggle" onclick="this.classList.toggle('on')" aria-label="Toggle manual confirmation"></button></div>
           </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Manual confirmation</div><div class="settings-desc">Require manual approval before each trade</div></div>
-            <label class="toggle"><input type="checkbox"><span class="slider-toggle"></span></label>
+          <div class="card">
+            <div class="section-title">Risk management</div>
+            <div class="config-row"><div><div class="config-label">Max risk per trade</div><div class="config-desc">% of account balance</div></div><input type="number" value="2.0" style="width:60px;font-size:13px;padding:4px 8px"></div>
+            <div class="config-row"><div><div class="config-label">Max daily loss (USDT)</div><div class="config-desc">Kill switch threshold</div></div><input type="number" value="50" style="width:60px;font-size:13px;padding:4px 8px"></div>
+            <div class="config-row"><div><div class="config-label">Max open positions</div><div class="config-desc">Simultaneous trades allowed</div></div><input type="number" value="3" style="width:60px;font-size:13px;padding:4px 8px"></div>
           </div>
-        </div>
-        <div class="settings-section">
-          <div style="font-size:14px;font-weight:500;margin-bottom:8px">Risk management</div>
-          <div class="settings-row">
-            <div><div class="settings-label">Max risk per trade</div><div class="settings-desc">% of account balance</div></div>
-            <div style="display:flex;align-items:center;gap:8px"><input type="range" min="0.5" max="5" step="0.5" value="2" style="width:100px" oninput="this.nextElementSibling.textContent=parseFloat(this.value).toFixed(1)+'%'"><span style="font-size:13px;min-width:36px">2.0%</span></div>
+          <div class="card">
+            <div class="section-title">Signal filters</div>
+            <div class="config-row"><div><div class="config-label">Min confidence</div><div class="config-desc" id="conf-val">70%</div></div><input type="range" min="50" max="95" value="70" step="1" style="width:100px" oninput="document.getElementById('conf-val').textContent=this.value+'%'"></div>
+            <div class="config-row"><div><div class="config-label">Min R:R ratio</div><div class="config-desc">Minimum risk:reward required</div></div><input type="number" value="1.5" step="0.1" style="width:60px;font-size:13px;padding:4px 8px"></div>
           </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Max daily loss (USDT)</div><div class="settings-desc">Kill switch triggers at this threshold</div></div>
-            <input type="number" value="50" style="width:80px;font-size:13px;padding:4px 8px">
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Max open positions</div><div class="settings-desc">Simultaneous open trades limit</div></div>
-            <input type="number" value="3" min="1" max="10" style="width:60px;font-size:13px;padding:4px 8px">
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Min signal confidence</div><div class="settings-desc">Signals below this % are auto-rejected</div></div>
-            <div style="display:flex;align-items:center;gap:8px"><input type="range" min="50" max="95" step="5" value="70" style="width:100px" oninput="this.nextElementSibling.textContent=this.value+'%'"><span style="font-size:13px;min-width:36px">70%</span></div>
+          <div class="card">
+            <div class="section-title">Kill switch</div>
+            <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px">Current status: <span style="color:#10B981;font-weight:500">Inactive</span></div>
+            <button class="kill-btn" style="width:100%;padding:8px" onclick="toggleKill()"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Activate kill switch</button>
+            <div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px">Activating will halt all new signals immediately. Open positions are not affected.</div>
           </div>
         </div>
-        <div class="settings-section">
-          <div style="font-size:14px;font-weight:500;margin-bottom:8px">Notifications</div>
-          <div class="settings-row">
-            <div><div class="settings-label">Telegram alerts</div><div class="settings-desc">TP hit, SL hit, kill switch, daily summary</div></div>
-            <label class="toggle"><input type="checkbox" checked><span class="slider-toggle"></span></label>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="page" id="page-notifications">
+        <div class="grid2b">
+          <div class="card">
+            <div class="section-title"><i class="ti ti-brand-telegram" aria-hidden="true"></i> Telegram</div>
+            <div class="config-row"><div class="config-label">Bot token</div><input type="password" value="7412●●●●●●●●●●●3xAB" style="width:160px;font-size:12px;padding:4px 8px"></div>
+            <div class="config-row"><div class="config-label">Chat ID</div><input type="text" value="-100198234●●●" style="width:160px;font-size:12px;padding:4px 8px"></div>
+            <div style="margin:12px 0"><button style="font-size:12px;padding:5px 14px"><i class="ti ti-send" aria-hidden="true"></i> Test connection</button></div>
+            <div class="section-title" style="margin-top:8px;font-size:12px">Alert types</div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">New signal generated</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle signal alert"></button></div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">TP hit (WIN)</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle TP alert"></button></div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">SL hit (LOSS)</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle SL alert"></button></div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">Kill switch triggered</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle kill switch alert"></button></div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">Daily summary</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle daily summary"></button></div>
           </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Email reports</div><div class="settings-desc">Daily summary + weekly report</div></div>
-            <label class="toggle"><input type="checkbox" checked><span class="slider-toggle"></span></label>
+          <div class="card">
+            <div class="section-title"><i class="ti ti-mail" aria-hidden="true"></i> Email</div>
+            <div class="config-row"><div class="config-label">SMTP host</div><input type="text" value="smtp.gmail.com" style="width:160px;font-size:12px;padding:4px 8px"></div>
+            <div class="config-row"><div class="config-label">Port</div><input type="number" value="587" style="width:80px;font-size:12px;padding:4px 8px"></div>
+            <div class="config-row"><div class="config-label">From address</div><input type="email" value="bot@yourdomain.com" style="width:160px;font-size:12px;padding:4px 8px"></div>
+            <div class="config-row"><div class="config-label">Recipient</div><input type="email" value="trader@yourdomain.com" style="width:160px;font-size:12px;padding:4px 8px"></div>
+            <div style="margin:12px 0"><button style="font-size:12px;padding:5px 14px"><i class="ti ti-send" aria-hidden="true"></i> Test connection</button></div>
+            <div class="section-title" style="margin-top:8px;font-size:12px">Alert types</div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">TP hit (WIN)</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle email TP"></button></div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">SL hit (LOSS)</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle email SL"></button></div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">Kill switch triggered</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle email kill"></button></div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">Daily summary</div><button class="toggle on" onclick="this.classList.toggle('on')" aria-label="Toggle email daily"></button></div>
+            <div class="config-row"><div class="config-label" style="font-size:12px">Weekly report</div><button class="toggle" onclick="this.classList.toggle('on')" aria-label="Toggle weekly report"></button></div>
           </div>
-        </div>
-        <div style="display:flex;justify-content:flex-end">
-          <button onclick="sendPrompt('What happens when I save the bot settings?')" style="font-size:13px;padding:6px 20px">Save settings ↗</button>
         </div>
       </div>
 
@@ -360,77 +345,61 @@ input:checked+.slider-toggle:before{transform:translateX(18px);background:var(--
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const titles = {overview:'Overview',live:'Live monitor',signals:'Signal log',trades:'Trade history',analytics:'Analytics',settings:'Settings'};
-
-function showPage(id, el) {
+const pages = {
+  overview:'Overview', live:'Live monitor', signals:'Signal log',
+  trades:'Trade history', analytics:'Analytics', settings:'Settings', notifications:'Notifications'
+};
+function nav(id, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   el.classList.add('active');
-  document.getElementById('page-title').textContent = titles[id];
-  if(id==='analytics') setTimeout(renderAnalytics,50);
+  document.getElementById('page-title').textContent = pages[id];
+  if(id==='analytics') setTimeout(initAnalytics, 50);
+}
+let killActive = false;
+function toggleKill() {
+  killActive = !killActive;
+  document.getElementById('kill-banner').style.display = killActive ? 'flex' : 'none';
+}
+let autoMode = true;
+function setMode(m) {
+  autoMode = m === 'auto';
+  document.getElementById('btn-auto').classList.toggle('active', autoMode);
+  document.getElementById('btn-manual').classList.toggle('active', !autoMode);
 }
 
-const pnlData = [0,42,38,95,88,145,132,198,212,268,310,352,421,510,605,720,841];
-const labels14 = ['Jun 1','2','3','4','5','6','7','8','9','10','11','12','13','14'];
+const pnlData = Array.from({length:30},(_,i)=>{
+  const base = [0,8,-3,15,22,18,35,42,38,55,62,58,74,82,78,95,108,102,118,130,124,148,162,158,178,195,188,210,228,242];
+  return base[i] ?? 0;
+});
+const labels30 = Array.from({length:30},(_,i)=>{
+  const d = new Date(2026,4,3); d.setDate(d.getDate()+i);
+  return (d.getMonth()+1)+'/'+d.getDate();
+});
+new Chart(document.getElementById('pnlChart'),{
+  type:'line',
+  data:{labels:labels30,datasets:[{label:'PnL (USDT)',data:pnlData,borderColor:'#1A56DB',backgroundColor:'rgba(26,86,219,0.08)',borderWidth:2,pointRadius:0,fill:true,tension:0.4}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'$'+ctx.parsed.y.toFixed(2)}}},scales:{x:{ticks:{maxTicksLimit:6,font:{size:11}},grid:{display:false}},y:{ticks:{callback:v=>'$'+v,font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}}}}
+});
+new Chart(document.getElementById('donutChart'),{
+  type:'doughnut',
+  data:{labels:['Win','Loss'],datasets:[{data:[18,9],backgroundColor:['#10B981','#EF4444'],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.parsed}}},cutout:'68%'}
+});
 
-let pnlChart, winChart, analyticsChart, pairChart;
-
-function renderCharts() {
-  const pnlCtx = document.getElementById('pnlChart').getContext('2d');
-  pnlChart = new Chart(pnlCtx, {
-    type:'line',
-    data:{labels:labels14,datasets:[{label:'PnL',data:pnlData.slice(1,15),borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.08)',tension:0.4,fill:true,pointRadius:2,borderWidth:2}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:0}},y:{ticks:{font:{size:10},callback:v=>'$'+v}}}}
-  });
-  const winCtx = document.getElementById('winChart').getContext('2d');
-  winChart = new Chart(winCtx, {
-    type:'doughnut',
-    data:{labels:['Wins','Losses'],datasets:[{data:[68,32],backgroundColor:['#10b981','#ef4444'],borderWidth:0}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}
-  });
-}
-
-function renderAnalytics() {
-  if(analyticsChart) analyticsChart.destroy();
-  if(pairChart) pairChart.destroy();
-  const aCtx = document.getElementById('analyticsChart').getContext('2d');
-  analyticsChart = new Chart(aCtx, {
-    type:'line',
-    data:{labels:labels14,datasets:[{label:'PnL',data:pnlData.slice(1,15),borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',tension:0.4,fill:true,pointRadius:2,borderWidth:2}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:10},maxRotation:0}},y:{ticks:{font:{size:10},callback:v=>'$'+v}}}}
-  });
-  const pCtx = document.getElementById('pairChart').getContext('2d');
-  pairChart = new Chart(pCtx, {
+let analyticsInit = false;
+function initAnalytics() {
+  if(analyticsInit) return; analyticsInit = true;
+  new Chart(document.getElementById('pairChart'),{
     type:'bar',
-    data:{labels:['BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT'],datasets:[{label:'Win %',data:[75,67,50,100],backgroundColor:['#10b981','#10b981','#f59e0b','#10b981'],borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{max:100,ticks:{callback:v=>v+'%',font:{size:10}}},x:{ticks:{font:{size:10}}}}}
+    data:{labels:['BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT','ADAUSDT'],datasets:[{label:'Win rate %',data:[72,65,70,58,44],backgroundColor:['#10B981','#10B981','#10B981','#1A56DB','#EF4444'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}
+  });
+  new Chart(document.getElementById('sessionChart'),{
+    type:'bar',
+    data:{labels:['Asia','London','New York'],datasets:[{label:'Trades',data:[6,11,10],backgroundColor:['#7F77DD','#378ADD','#1D9E75'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{font:{size:11}},grid:{color:'rgba(0,0,0,0.06)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}
   });
 }
-
-function setAnalyticsPeriod(days, btn) {
-  document.querySelectorAll('#page-analytics button').forEach(b=>{b.style.background='';b.style.color='';});
-  btn.style.background='var(--color-background-info)';
-  btn.style.color='var(--color-text-info)';
-  renderAnalytics();
-}
-
-let btcBase=67841, ethBase=3496;
-function tickPrices() {
-  btcBase += (Math.random()-0.48)*30;
-  ethBase += (Math.random()-0.48)*4;
-  const btcPnl = ((btcBase-67200)*0.01).toFixed(2);
-  const ethPnl = ((3520-ethBase)*0.5).toFixed(2);
-  const bm = document.getElementById('btc-mark');
-  const em = document.getElementById('eth-mark');
-  const bp = document.getElementById('btc-pnl');
-  const ep = document.getElementById('eth-pnl');
-  if(bm){bm.textContent=Math.round(btcBase).toLocaleString();}
-  if(em){em.textContent=Math.round(ethBase).toLocaleString();}
-  if(bp){bp.textContent=(btcPnl>=0?'+$':'–$')+Math.abs(btcPnl);bp.className=btcPnl>=0?'pnl-pos':'pnl-neg';}
-  if(ep){ep.textContent=(ethPnl>=0?'+$':'–$')+Math.abs(ethPnl);ep.className=ethPnl>=0?'pnl-pos':'pnl-neg';}
-}
-
-renderCharts();
-setInterval(tickPrices,1500);
 </script>
